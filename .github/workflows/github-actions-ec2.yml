@@ -1,0 +1,90 @@
+name: Push-to-EC2
+
+# Trigger deployment only on push to main branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to EC2 on master branch push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the files
+        uses: actions/checkout@v2
+
+      - name: Deploy to Server 1
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: -----BEGIN RSA PRIVATE KEY-----
+                           MIIEogIBAAKCAQEA2rxGPSEYno2hjX6u8eq3WqsPoGW903ae9LO4Iv6o5cdOLgVH
+                           JUM301fzoKEwjRzKdf0yizeuV1/z3eRbH6suOYMtxslvomWLr/9Mzj3FWhrx13nm
+                           Bl1Fqo6K5YWEwJLN5SgMSTtRjiqkvJ0TFC7FzFp70xLs/SBtUMY3qU2n7CtraArU
+                           VgmAoQTfr8tcDFLa7REN31qEM3qVvFNvNQjMmozhpjmOTUhUSVQM/1BGCSsiH3N/
+                           yl+873Caa59tQpZmMf/Pk5x9lj2S2+lI7xnK/kDUO+M/hKKyNVSVbosmN6tkzTM7
+                           lTU45IfO+4lQ1nT2A0EPAo0cYbtqFHJJEMKhKwIDAQABAoIBAEIgq0dtywicHtwt
+                           EWy3ngj+MDI4sAPPF804zBFgVeVptLv7AoBEawssys2kDY6LxrWW/4HRKpblvk81
+                           60qOsOHYQ62WVnaNJoblsu2jBRfxj22qP51q81XV1C4BiJnDiBWgXt6A3W4SfE09
+                           W3g9j7TxIgA094qrFAFYe5lmjb667nIqwKqhwr0HfoMPIdB4uupnBa3lqGx9OfbV
+                           f/FvOGvn7jwauJS6y2cbFMcyamo7MGrN1iTfkYUTl5IY/Ydr4rd3zbQ0EKP2tZeR
+                           g22f+6KGESDLDePB8j67QDHU550kjXx8fi8m5MFOqqO6XtGVh7a3uzLmEfV6jgS9
+                           D/U1wXkCgYEA+MwVVubnuH7lUMDu54cPqxG9VInEMTx5H9xo4NqeAdIiT6J32KLr
+                           9i2FtRoNPUaZJZJ4nmxvMea+1CsMKpzw0ud/PCo6b+nnhQ3r3GF8J6a1AzH1YAlj
+                           Dg7gN4axb3RudOL5+FKi5tkatDjX4hXyyA9RLArUg7YSNmOzQ5dqPV8CgYEA4RFk
+                           xCG+Y97aws2OT84DMrXlcZypBC9OYpVHlroKvZ1smNy8hP/4IFKVgZZgt+SsY2aC
+                           7+gXtsM3wT40FynIVJ7bAaBGCwl2/qu4+4h3zXUPpu6CRcclxhJN+uR2wra6gaKk
+                           hcs75Pbtp4PExJyBspTwAQNpMyhXEiGbwGIG47UCgYA4YeekHgf9Y6SMPGznw0/l
+                           sMt7UQ1JKy837TdHXcPZHcnwyhzm12UqEP7wH8tIS6uBPERhgqlgYa51XpwPPCnH
+                           YfcPp3I+0n9JQ/JjqyP7yGfVJYk6DmaIVQ6zBq9HVteBXb7Qa8nHDwRiO0+RSPAQ
+                           LohytrGad7SA5u9FLhdBeQKBgHSi2fCWeB8zf3USp5yN67Rc9XHiOOjVRy7po7bl
+                           5OkM6xlw0zWtnT3K7nXAo5DJLdk5Z8PCKH/rPTqk7MPQQGQyCtcV4xaXKhaikXOw
+                           7j0IXDsrQVG9+cJi/Ax4V19i6NaDnfVENF7c5J46OD+Xx9LvQk2UIfGEB1N7HUce
+                           xek9AoGAdcjWMf7inQHnA4JYr6BpLfKo4m9ObfRDxZMAV+0QWPWaZ8sijNYNxOzW
+                           Pke/50O90vdKfu+c94QWDh+cbpZrXF210gSgaVfsRhE3H4Ogt/s3IqRXi1ErJo9U
+                           Es4O3w5IsuDSyzAMpWZfSOUm1aBx57uGV7LrbSdEO8wo3lCGBfE=
+                           -----END RSA PRIVATE KEY-----
+          REMOTE_HOST: ec2-13-126-150-122.ap-south-1.compute.amazonaws.com
+          REMOTE_USER: ubuntu
+          TARGET: home
+
+      - name: Executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ec2-13-126-150-122.ap-south-1.compute.amazonaws.com
+          username: ubuntu
+          key:  -----BEGIN RSA PRIVATE KEY-----
+                           MIIEogIBAAKCAQEA2rxGPSEYno2hjX6u8eq3WqsPoGW903ae9LO4Iv6o5cdOLgVH
+                           JUM301fzoKEwjRzKdf0yizeuV1/z3eRbH6suOYMtxslvomWLr/9Mzj3FWhrx13nm
+                           Bl1Fqo6K5YWEwJLN5SgMSTtRjiqkvJ0TFC7FzFp70xLs/SBtUMY3qU2n7CtraArU
+                           VgmAoQTfr8tcDFLa7REN31qEM3qVvFNvNQjMmozhpjmOTUhUSVQM/1BGCSsiH3N/
+                           yl+873Caa59tQpZmMf/Pk5x9lj2S2+lI7xnK/kDUO+M/hKKyNVSVbosmN6tkzTM7
+                           lTU45IfO+4lQ1nT2A0EPAo0cYbtqFHJJEMKhKwIDAQABAoIBAEIgq0dtywicHtwt
+                           EWy3ngj+MDI4sAPPF804zBFgVeVptLv7AoBEawssys2kDY6LxrWW/4HRKpblvk81
+                           60qOsOHYQ62WVnaNJoblsu2jBRfxj22qP51q81XV1C4BiJnDiBWgXt6A3W4SfE09
+                           W3g9j7TxIgA094qrFAFYe5lmjb667nIqwKqhwr0HfoMPIdB4uupnBa3lqGx9OfbV
+                           f/FvOGvn7jwauJS6y2cbFMcyamo7MGrN1iTfkYUTl5IY/Ydr4rd3zbQ0EKP2tZeR
+                           g22f+6KGESDLDePB8j67QDHU550kjXx8fi8m5MFOqqO6XtGVh7a3uzLmEfV6jgS9
+                           D/U1wXkCgYEA+MwVVubnuH7lUMDu54cPqxG9VInEMTx5H9xo4NqeAdIiT6J32KLr
+                           9i2FtRoNPUaZJZJ4nmxvMea+1CsMKpzw0ud/PCo6b+nnhQ3r3GF8J6a1AzH1YAlj
+                           Dg7gN4axb3RudOL5+FKi5tkatDjX4hXyyA9RLArUg7YSNmOzQ5dqPV8CgYEA4RFk
+                           xCG+Y97aws2OT84DMrXlcZypBC9OYpVHlroKvZ1smNy8hP/4IFKVgZZgt+SsY2aC
+                           7+gXtsM3wT40FynIVJ7bAaBGCwl2/qu4+4h3zXUPpu6CRcclxhJN+uR2wra6gaKk
+                           hcs75Pbtp4PExJyBspTwAQNpMyhXEiGbwGIG47UCgYA4YeekHgf9Y6SMPGznw0/l
+                           sMt7UQ1JKy837TdHXcPZHcnwyhzm12UqEP7wH8tIS6uBPERhgqlgYa51XpwPPCnH
+                           YfcPp3I+0n9JQ/JjqyP7yGfVJYk6DmaIVQ6zBq9HVteBXb7Qa8nHDwRiO0+RSPAQ
+                           LohytrGad7SA5u9FLhdBeQKBgHSi2fCWeB8zf3USp5yN67Rc9XHiOOjVRy7po7bl
+                           5OkM6xlw0zWtnT3K7nXAo5DJLdk5Z8PCKH/rPTqk7MPQQGQyCtcV4xaXKhaikXOw
+                           7j0IXDsrQVG9+cJi/Ax4V19i6NaDnfVENF7c5J46OD+Xx9LvQk2UIfGEB1N7HUce
+                           xek9AoGAdcjWMf7inQHnA4JYr6BpLfKo4m9ObfRDxZMAV+0QWPWaZ8sijNYNxOzW
+                           Pke/50O90vdKfu+c94QWDh+cbpZrXF210gSgaVfsRhE3H4Ogt/s3IqRXi1ErJo9U
+                           Es4O3w5IsuDSyzAMpWZfSOUm1aBx57uGV7LrbSdEO8wo3lCGBfE=
+                           -----END RSA PRIVATE KEY-----
+          script: |
+            sudo apt-get -y update
+            sudo apt-get install -y apache2
+            sudo systemctl start apache2
+            sudo systemctl enable apache2
+            cd home
+            sudo mv * /var/www/html
